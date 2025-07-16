@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 export const Google = () => {
   const handleLoginGoogle = async () => {
     window.location =
-      "https://cahaya-kreativ-be.vercel.app/api/v1/users/google";
+      "https://website-be-inky.vercel.app/api/v1/users/google/callback";
   };
 
   return (

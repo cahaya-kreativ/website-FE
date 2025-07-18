@@ -85,7 +85,9 @@ export const API_ENDPOINT = {
   ALL_USER: "/all/users", // [GET] 
   ALL_EMPLOYEE: "/all/employees", // [GET] 
   ADD_EMPLOYEE: "/add/employee", // [POST]
-  CHANGE_PASS: "/change-password", // [put]
+  CHANGE_PASS: "/change-password", // [Put]
+  EDIT_EMPLOYEE: "/edit/employee", // [Put]
+  DELETE_EMPLOYEE: "delete/employee", // [Delete]
 
   // DISCOUNT
   CREATE_DISCOUNT: "/discount", // [POST]

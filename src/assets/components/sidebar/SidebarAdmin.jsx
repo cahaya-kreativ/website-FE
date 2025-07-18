@@ -88,7 +88,7 @@ export const SidebarAdmin = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <div
-        className={`fixed z-40 h-full w-64 transform transition-transform duration-300 ease-in-out md:relative ${
+        className={`fixed z-40 h-full w-72 transform transition-transform duration-300 ease-in-out md:relative ${
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } flex flex-col bg-zinc-800 p-4`}
       >
@@ -104,8 +104,8 @@ export const SidebarAdmin = ({ isOpen, onClose }) => {
             alt="Brand Logo"
             className="hidden w-[1.5rem] md:block"
           />
-          <h1 className="font-serif text-2xl font-bold text-white">
-            Hi, {auth?.role === "admin" ? "Admin" : "Employee"}
+          <h1 className="font-serif text-xl font-bold text-white">
+            Hi, {auth?.fullname}
           </h1>
         </div>
 

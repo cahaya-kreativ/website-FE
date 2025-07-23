@@ -243,6 +243,9 @@ const PaymentSummary = ({
             <p className="font-medium">{detail.product.name}</p>
             <p className="text-sm text-zinc-400">Quantity: {detail.quantity}</p>
           </div>
+          <div className="text-zinc-300">
+            <p className="font-medium">{detail.tax}</p>
+          </div>
           <span className="font-medium text-white">
             {formatPrice(detail.subtotal)}
           </span>

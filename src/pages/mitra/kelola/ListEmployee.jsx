@@ -1,13 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+import {
+  showLoadingToast,
+  showSuccessToast,
+} from "../../../helper/ToastHelper";
 
 import { getEmployeesAction } from "../../../redux/action/admin/dashboard/GetCustomersAction";
+import { updateEmployeeAction, deleteEmployeeAction } from "../../../redux/action/admin/auth/addEmployeeAction";
 
 export const ListEmployee = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
+  const [editTargetId, setEditTargetId] = useState(null);
   const employeesPerPage = 10;
+  const [editData, setEditData] = useState({
+    fullname: "",
+    email: "",
+    phoneNumber: "",
+  });
+
+  const openEditModal = (id) => {
+    setEditTargetId(id);
+    setShowEditModal(true);
+  };
+  
+  const closeEditModal = () => {
+    setEditTargetId(null);
+    setShowEditModal(false);
+  };
+  
+  const openDeleteModal = (id) => {
+    setDeleteTargetId(id);
+    setShowDeleteModal(true);
+  };
+  
+  const closeDeleteModal = () => {
+    setDeleteTargetId(null);
+    setShowDeleteModal(false);
+  };    
 
   // Ambil data dari Redux Store
   const employees = useSelector((state) => state.getCustomer.employees || []);
@@ -30,6 +66,70 @@ export const ListEmployee = () => {
   useEffect(() => {
     dispatch(getEmployeesAction());
   }, [dispatch]);
+
+    // Fungsi Edit - placeholder
+  const handleEdit = async () => {
+    const employeeId = editTargetId;
+
+    const loadingToastId = showLoadingToast("Loading ...");
+
+    try {
+      const result = await dispatch(
+        updateEmployeeAction(employeeId, {
+          fullname: editData.fullname,
+          email: editData.email,
+          phoneNumber: editData.phoneNumber,
+        })
+      );
+      toast.dismiss(loadingToastId);
+
+      if (result) {
+        showSuccessToast("Edit Employee Successfully!");
+        setTimeout(() => {
+          dispatch(getEmployeesAction());
+          closeEditModal();
+        }, 1000);
+      }
+    } catch (error) {
+      next(error)
+    }
+  };
+
+  // Fungsi Delete - bisa dihubungkan ke Redux action
+  const handleDelete = async () => {
+    const employeeId = deleteTargetId;
+
+    const loadingToastId = showLoadingToast("Loading ...");
+
+    try {
+      const result = await dispatch(deleteEmployeeAction(employeeId));
+      toast.dismiss(loadingToastId);
+
+      if (result) {
+        setTimeout(() => {
+
+          dispatch(getEmployeesAction());
+          closeDeleteModal();
+        }, 1000);
+      }
+    } catch (error) {
+      next(error)
+    } 
+  };
+
+  useEffect(() => {
+    if (editTargetId) {
+      const targetEmployee = employees.find((emp) => emp.id === editTargetId);
+      if (targetEmployee) {
+        setEditData({
+          fullname: targetEmployee.fullname || "",
+          email: targetEmployee.email || "",
+          phoneNumber: targetEmployee.phoneNumber || "",
+        });
+      }
+    }
+  }, [editTargetId, employees]);
+  
 
   return (
     <div className="text-white">
@@ -59,6 +159,9 @@ export const ListEmployee = () => {
               <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                 TELEPON
               </th>
+              <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
+                ACTION
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-700 bg-zinc-900">
@@ -84,12 +187,125 @@ export const ListEmployee = () => {
                   <td className="px-4 py-3 text-center text-gray-300">
                     {Employee.phoneNumber || "-"}
                   </td>
+                  <td className="px-4 py-3 text-center text-gray-300">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={() => openEditModal(Employee.id)}
+                        className="rounded bg-blue-600 px-2 py-1 text-xs cursor-pointer text-white hover:bg-blue-700"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => openDeleteModal(Employee.id)}
+                        className="rounded bg-red-600 px-2 py-1 text-xs cursor-pointer text-white hover:bg-red-700"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+
+      {showEditModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-[90%] max-w-md rounded-lg bg-zinc-800 p-6 shadow-xl">
+            <h2 className="mb-4 text-2xl font-semibold text-white">
+              Edit Data Karyawan
+            </h2>
+
+            {/* Form Edit */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEdit(); // Lakukan dispatch edit atau logika update di sini
+              }}
+              className="space-y-4"
+            >
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">
+                  Nama Lengkap
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  value={editData.fullname}
+                  onChange={(e) => setEditData({ ...editData, fullname: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">Email</label>
+                <input
+                  type="email"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  value={editData.email}
+                  onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-300 mb-1">No Telepon</label>
+                <input
+                  type="text"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  value={editData.phoneNumber}
+                  onChange={(e) => setEditData({ ...editData, phoneNumber: e.target.value })}
+                />
+              </div>
+
+              {/* Tombol Aksi */}
+              <div className="flex justify-end gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={closeEditModal}
+                  className="rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700 cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 cursor-pointer"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+      {/* Modal Konfirmasi Hapus */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-[90%] max-w-md rounded-lg bg-zinc-800 p-6 shadow-xl">
+            <h2 className="mb-4 text-2xl font-semibold text-white">
+              Konfirmasi Hapus
+            </h2>
+            <p className="mb-6 text-sm text-gray-300">
+              Apakah Anda yakin ingin menghapus akun karyawan ini?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+              onClick={closeDeleteModal}
+                className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleDelete}
+                className="cursor-pointer rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="mt-4 flex items-center justify-between">

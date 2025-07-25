@@ -51,7 +51,7 @@ export const TentangKami = () => {
     {
       id: 1,
       name: "Ghifarry Rachmadhan",
-      role: "Leader",
+      role: "Commissioner",
       image:
         "https://ik.imagekit.io/cahayakreativ/Foto%20Mitra/IMG_3306.jpg?updatedAt=1748442595216",
       quote:
@@ -62,7 +62,7 @@ export const TentangKami = () => {
     {
       id: 2,
       name: "Ekky Yudha Perkasa",
-      role: "Co-Leader",
+      role: "Founder",
       image:
         "https://ik.imagekit.io/cahayakreativ/Foto%20Mitra/IMG_3315.jpg?updatedAt=1748442594336",
       quote:
@@ -73,7 +73,7 @@ export const TentangKami = () => {
     {
       id: 3,
       name: "Abrar Azizi",
-      role: "Documentation",
+      role: "Founder",
       image:
         "https://ik.imagekit.io/cahayakreativ/Foto%20Mitra/IMG_3318.jpg?updatedAt=1748442594992",
       quote: "Kreativitas adalah kunci untuk menghasilkan karya yang berbeda.",
@@ -83,7 +83,7 @@ export const TentangKami = () => {
     {
       id: 4,
       name: "Wisnu Mukti D.",
-      role: "Administration",
+      role: "Founder",
       image:
         "https://ik.imagekit.io/cahayakreativ/Foto%20Mitra/IMG_3326.jpg?updatedAt=1748442594610",
       quote: "Konten yang baik adalah perpaduan antara seni dan strategi.",

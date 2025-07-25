@@ -559,6 +559,12 @@ export const Order = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
+                    <span className="text-gray-300">Tax</span>
+                    <span className="font-medium text-white">
+                      Rp {formatNumber(product?.tax)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
                     <span className="text-gray-300">Duration</span>
                     <span className="font-medium text-white">
                       {formatDuration(product?.duration)}

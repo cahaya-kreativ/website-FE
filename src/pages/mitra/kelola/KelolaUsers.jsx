@@ -113,7 +113,7 @@ export const KelolaUsers = () => {
                   <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                     PROVINSI
                   </th>
-                  {auth?.role === "admin" && (
+                  {auth?.role === "superAdmin" && (
                     <th className="min-w-[80px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                       ACTION
                     </th>
@@ -154,7 +154,7 @@ export const KelolaUsers = () => {
                       <td className="px-4 py-3 text-center text-gray-300">
                         {customer.profile?.province || "-"}
                       </td>
-                      {auth?.role === "admin" && (
+                      {auth?.role === "superAdmin" && (
                         <td className="px-4 py-3 text-center text-white">
                           <BsChatDotsFill
                             className="ml-4 cursor-pointer"

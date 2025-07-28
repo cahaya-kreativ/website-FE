@@ -24,7 +24,13 @@ export const Setting = () => {
   const auth = useSelector((state) => state.authLoginAdmin.admin);
 
   // Tentukan default tab berdasarkan role
-  const defaultTab = auth?.role === "admin" ? "list-employee" : "change-password";
+  const defaultTab =
+    auth?.role === "superAdmin"
+      ? "list-employee"
+      : auth?.role === "admin"
+        ? "list-employee"
+        : "change-password";
+
   const [activeTab, setActiveTab] = useState(defaultTab);
 
   const toggleSidebar = () => {
@@ -35,12 +41,15 @@ export const Setting = () => {
     const searchParams = new URLSearchParams(location.search);
     const tabFromUrl = searchParams.get("tab");
 
-    const adminTabs = ["list-employee", "add-employee", "change-password"];
+    const superAdminTabs = ["list-employee", "add-employee", "change-password"];
+    const adminTabs = ["list-employee", "change-password", "pengajuan-cuti"];
     const employeeTabs = ["change-password", "pengajuan-cuti"];
 
-    if (auth?.role === "admin" && adminTabs.includes(tabFromUrl)) {
+    if (auth?.role === "superAdmin" && superAdminTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl);
-    } else if (auth?.role !== "admin" && employeeTabs.includes(tabFromUrl)) {
+    } else if (auth?.role === "admin" && adminTabs.includes(tabFromUrl)) {
+      setActiveTab(tabFromUrl);
+    } else if (auth?.role === "employee" && employeeTabs.includes(tabFromUrl)) {
       setActiveTab(tabFromUrl);
     } else {
       setActiveTab(defaultTab);
@@ -77,35 +86,36 @@ export const Setting = () => {
                 Pengaturan
               </h2>
               <ul className="space-y-4">
-                {auth?.role === "admin" && (
-                  <>
-                    <li>
-                      <button
-                        onClick={() => setActiveTab("list-employee")}
-                        className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
-                          activeTab === "list-employee"
-                            ? "bg-blue-600 text-white"
-                            : "text-zinc-300 hover:bg-zinc-700 cursor-pointer"
-                        }`}
-                      >
-                        <FaListAlt size={20} />
-                        Daftar List Karyawan
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        onClick={() => setActiveTab("add-employee")}
-                        className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
-                          activeTab === "add-employee"
-                            ? "bg-blue-600 text-white"
-                            : "text-zinc-300 hover:bg-zinc-700 cursor-pointer"
-                        }`}
-                      >
-                        <IoPersonAdd size={20} />
-                        Tambah Karyawan
-                      </button>
-                    </li>
-                  </>
+                {(auth?.role === "superAdmin" || auth?.role === "admin") && (
+                  <li>
+                    <button
+                      onClick={() => setActiveTab("list-employee")}
+                      className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
+                        activeTab === "list-employee"
+                          ? "bg-blue-600 text-white"
+                          : "cursor-pointer text-zinc-300 hover:bg-zinc-700"
+                      }`}
+                    >
+                      <FaListAlt size={20} />
+                      Daftar List Karyawan
+                    </button>
+                  </li>
+                )}
+
+                {auth?.role === "superAdmin" && (
+                  <li>
+                    <button
+                      onClick={() => setActiveTab("add-employee")}
+                      className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
+                        activeTab === "add-employee"
+                          ? "bg-blue-600 text-white"
+                          : "cursor-pointer text-zinc-300 hover:bg-zinc-700"
+                      }`}
+                    >
+                      <IoPersonAdd size={20} />
+                      Tambah Karyawan
+                    </button>
+                  </li>
                 )}
 
                 <li>
@@ -114,7 +124,7 @@ export const Setting = () => {
                     className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
                       activeTab === "change-password"
                         ? "bg-blue-600 text-white"
-                        : "text-zinc-300 hover:bg-zinc-700 cursor-pointer"
+                        : "cursor-pointer text-zinc-300 hover:bg-zinc-700"
                     }`}
                   >
                     <TbLockPassword size={20} />
@@ -122,14 +132,14 @@ export const Setting = () => {
                   </button>
                 </li>
 
-                {auth?.role !== "admin" && (
+                {(auth?.role === "admin" || auth?.role === "employee") && (
                   <li>
                     <button
                       onClick={() => setActiveTab("pengajuan-cuti")}
                       className={`flex w-full items-center gap-4 rounded px-4 py-2 text-left text-sm transition-all ${
                         activeTab === "pengajuan-cuti"
                           ? "bg-blue-600 text-white"
-                          : "text-zinc-300 hover:bg-zinc-700 cursor-pointer"
+                          : "cursor-pointer text-zinc-300 hover:bg-zinc-700"
                       }`}
                     >
                       <FaPlaneDeparture size={18} />
@@ -142,16 +152,17 @@ export const Setting = () => {
 
             {/* Dynamic Content */}
             <div className="w-[70%] rounded-lg bg-zinc-800 p-6">
-              {auth?.role === "admin" && activeTab === "list-employee" && (
-                <ListEmployee />
-              )}
-              {auth?.role === "admin" && activeTab === "add-employee" && (
+              {(auth?.role === "superAdmin" || auth?.role === "admin") &&
+                activeTab === "list-employee" && <ListEmployee />}
+
+              {auth?.role === "superAdmin" && activeTab === "add-employee" && (
                 <AddEmployee />
               )}
+
               {activeTab === "change-password" && <ChangedPassword />}
-              {auth?.role !== "admin" && activeTab === "pengajuan-cuti" && (
-                <PengajuanCuti />
-              )}
+
+              {(auth?.role === "admin" || auth?.role === "employee") &&
+                activeTab === "pengajuan-cuti" && <PengajuanCuti />}
             </div>
           </div>
         </div>

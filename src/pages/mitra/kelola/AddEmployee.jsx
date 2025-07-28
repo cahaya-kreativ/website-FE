@@ -22,6 +22,7 @@ export const AddEmployee = () => {
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [Password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [Role, setRole] = useState("employee"); // default ke 'karyawan'
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -50,13 +51,14 @@ export const AddEmployee = () => {
         email: Email,
         phoneNumber: PhoneNumber,
         password: Password,
+        role: Role,
       }),
     );
 
     toast.dismiss(loadingToastId);
 
     if (employee) {
-      showSuccessToast("Create employee successfully!");
+      showSuccessToast("Create Account successfully!");
       setTimeout(() => {
         navigate("/admin/setting?tab=list-employee");
       }, 1000);
@@ -230,6 +232,35 @@ export const AddEmployee = () => {
                 onClick={handleShowPassword}
               />
             )}
+          </div>
+        </div>
+
+        {/* Pilih Role */}
+        <div className="flex flex-col gap-2">
+          <span className="text-left text-lg">Pilih Role</span>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
+                Role === "employee"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-800 cursor-pointer"
+              }`}
+              onClick={() => setRole("employee")}
+            >
+              Karyawan
+            </button>
+            <button
+              type="button"
+              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
+                Role === "admin"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-800 cursor-pointer"
+              }`}
+              onClick={() => setRole("admin")}
+            >
+              Admin
+            </button>
           </div>
         </div>
 

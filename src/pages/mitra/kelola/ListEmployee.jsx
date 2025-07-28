@@ -8,7 +8,10 @@ import {
 } from "../../../helper/ToastHelper";
 
 import { getEmployeesAction } from "../../../redux/action/admin/dashboard/GetCustomersAction";
-import { updateEmployeeAction, deleteEmployeeAction } from "../../../redux/action/admin/auth/addEmployeeAction";
+import {
+  updateEmployeeAction,
+  deleteEmployeeAction,
+} from "../../../redux/action/admin/auth/addEmployeeAction";
 
 export const ListEmployee = () => {
   const dispatch = useDispatch();
@@ -23,30 +26,32 @@ export const ListEmployee = () => {
     fullname: "",
     email: "",
     phoneNumber: "",
+    role: "",
   });
 
   const openEditModal = (id) => {
     setEditTargetId(id);
     setShowEditModal(true);
   };
-  
+
   const closeEditModal = () => {
     setEditTargetId(null);
     setShowEditModal(false);
   };
-  
+
   const openDeleteModal = (id) => {
     setDeleteTargetId(id);
     setShowDeleteModal(true);
   };
-  
+
   const closeDeleteModal = () => {
     setDeleteTargetId(null);
     setShowDeleteModal(false);
-  };    
+  };
 
   // Ambil data dari Redux Store
   const employees = useSelector((state) => state.getCustomer.employees || []);
+  const auth = useSelector((state) => state.authLoginAdmin.admin);
 
   // Filter employees berdasarkan nama lengkap
   const filteredEmployees = employees.filter((employee) =>
@@ -67,8 +72,8 @@ export const ListEmployee = () => {
     dispatch(getEmployeesAction());
   }, [dispatch]);
 
-    // Fungsi Edit - placeholder
-  const handleEdit = async () => {
+  // Fungsi Edit - placeholder
+  const handleEdit = async (req, res, next) => {
     const employeeId = editTargetId;
 
     const loadingToastId = showLoadingToast("Loading ...");
@@ -79,7 +84,8 @@ export const ListEmployee = () => {
           fullname: editData.fullname,
           email: editData.email,
           phoneNumber: editData.phoneNumber,
-        })
+          role: editData.role,
+        }),
       );
       toast.dismiss(loadingToastId);
 
@@ -91,12 +97,12 @@ export const ListEmployee = () => {
         }, 1000);
       }
     } catch (error) {
-      next(error)
+      next(error);
     }
   };
 
   // Fungsi Delete - bisa dihubungkan ke Redux action
-  const handleDelete = async () => {
+  const handleDelete = async (req, res, next) => {
     const employeeId = deleteTargetId;
 
     const loadingToastId = showLoadingToast("Loading ...");
@@ -107,14 +113,13 @@ export const ListEmployee = () => {
 
       if (result) {
         setTimeout(() => {
-
           dispatch(getEmployeesAction());
           closeDeleteModal();
         }, 1000);
       }
     } catch (error) {
-      next(error)
-    } 
+      next(error);
+    }
   };
 
   useEffect(() => {
@@ -125,11 +130,11 @@ export const ListEmployee = () => {
           fullname: targetEmployee.fullname || "",
           email: targetEmployee.email || "",
           phoneNumber: targetEmployee.phoneNumber || "",
+          role: targetEmployee.role || "",
         });
       }
     }
   }, [editTargetId, employees]);
-  
 
   return (
     <div className="text-white">
@@ -153,15 +158,20 @@ export const ListEmployee = () => {
               <th className="min-w-[160px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                 NAMA LENGKAP
               </th>
-              <th className="min-w-[160px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
+              <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                 EMAIL
               </th>
               <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                 TELEPON
               </th>
               <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
-                ACTION
+                ROLE
               </th>
+              {auth?.role === "superAdmin" && (
+                <th className="min-w-[120px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
+                  ACTION
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-700 bg-zinc-900">
@@ -179,30 +189,39 @@ export const ListEmployee = () => {
                   key={Employee.id}
                   className="transition-colors hover:bg-zinc-800"
                 >
-                  <td className="px-4 py-3 text-center text-gray-300">{index + 1}</td>
+                  <td className="px-4 py-3 text-center text-gray-300">
+                    {index + 1}
+                  </td>
                   <td className="px-4 py-3 text-center text-gray-300">
                     {Employee.fullname}
                   </td>
-                  <td className="px-4 py-3 text-center text-gray-300">{Employee.email}</td>
+                  <td className="px-4 py-3 text-center text-gray-300">
+                    {Employee.email}
+                  </td>
                   <td className="px-4 py-3 text-center text-gray-300">
                     {Employee.phoneNumber || "-"}
                   </td>
                   <td className="px-4 py-3 text-center text-gray-300">
-                    <div className="flex justify-center gap-2">
-                      <button
-                        onClick={() => openEditModal(Employee.id)}
-                        className="rounded bg-blue-600 px-2 py-1 text-xs cursor-pointer text-white hover:bg-blue-700"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => openDeleteModal(Employee.id)}
-                        className="rounded bg-red-600 px-2 py-1 text-xs cursor-pointer text-white hover:bg-red-700"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {Employee.role || "-"}
                   </td>
+                  {auth?.role === "superAdmin" && (
+                    <td className="px-4 py-3 text-center text-gray-300">
+                      <div className="flex justify-center gap-2">
+                        <button
+                          onClick={() => openEditModal(Employee.id)}
+                          className="cursor-pointer rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => openDeleteModal(Employee.id)}
+                          className="cursor-pointer rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))
             )}
@@ -226,35 +245,75 @@ export const ListEmployee = () => {
               className="space-y-4"
             >
               <div>
-                <label className="block text-sm text-gray-300 mb-1">
+                <label className="mb-1 block text-sm text-gray-300">
                   Nama Lengkap
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:ring focus:ring-blue-500 focus:outline-none"
                   value={editData.fullname}
-                  onChange={(e) => setEditData({ ...editData, fullname: e.target.value })}
+                  onChange={(e) =>
+                    setEditData({ ...editData, fullname: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-300 mb-1">Email</label>
+                <label className="mb-1 block text-sm text-gray-300">
+                  Email
+                </label>
                 <input
                   type="email"
-                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:ring focus:ring-blue-500 focus:outline-none"
                   value={editData.email}
-                  onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                  onChange={(e) =>
+                    setEditData({ ...editData, email: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-300 mb-1">No Telepon</label>
+                <label className="mb-1 block text-sm text-gray-300">
+                  No Telepon
+                </label>
                 <input
                   type="text"
-                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500"
+                  className="w-full rounded border border-zinc-700 bg-zinc-900 px-3 py-2 text-gray-200 focus:ring focus:ring-blue-500 focus:outline-none"
                   value={editData.phoneNumber}
-                  onChange={(e) => setEditData({ ...editData, phoneNumber: e.target.value })}
+                  onChange={(e) =>
+                    setEditData({ ...editData, phoneNumber: e.target.value })
+                  }
                 />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-sm text-gray-300">Role</label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    className={`w-full rounded px-4 py-2 font-semibold ${
+                      editData.role === "employee"
+                        ? "bg-blue-600 text-white"
+                        : "bg-zinc-700 text-gray-300 hover:bg-zinc-600 cursor-pointer"
+                    }`}
+                    onClick={() =>
+                      setEditData({ ...editData, role: "employee" })
+                    }
+                  >
+                    Employee
+                  </button>
+                  <button
+                    type="button"
+                    className={`w-full rounded px-4 py-2 font-semibold ${
+                      editData.role === "admin"
+                        ? "bg-blue-600 text-white"
+                        : "bg-zinc-700 text-gray-300 hover:bg-zinc-600 cursor-pointer"
+                    }`}
+                    onClick={() => setEditData({ ...editData, role: "admin" })}
+                  >
+                    Admin
+                  </button>
+                </div>
               </div>
 
               {/* Tombol Aksi */}
@@ -262,13 +321,13 @@ export const ListEmployee = () => {
                 <button
                   type="button"
                   onClick={closeEditModal}
-                  className="rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700 cursor-pointer"
+                  className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 cursor-pointer"
+                  className="cursor-pointer rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                 >
                   Simpan
                 </button>
@@ -277,7 +336,6 @@ export const ListEmployee = () => {
           </div>
         </div>
       )}
-
 
       {/* Modal Konfirmasi Hapus */}
       {showDeleteModal && (
@@ -291,7 +349,7 @@ export const ListEmployee = () => {
             </p>
             <div className="flex justify-end gap-3">
               <button
-              onClick={closeDeleteModal}
+                onClick={closeDeleteModal}
                 className="cursor-pointer rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
               >
                 Batal

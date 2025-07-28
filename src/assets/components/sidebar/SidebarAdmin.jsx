@@ -37,7 +37,7 @@ export const SidebarAdmin = ({ isOpen, onClose }) => {
       icon: <FiMessageCircle className="h-5 w-5" />,
       label: "Messages",
       path: "/admin/chat",
-      role: "admin",
+      role: "superAdmin",
     },
     {
       icon: <IoMdCart className="h-5 w-5" />,

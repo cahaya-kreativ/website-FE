@@ -333,7 +333,7 @@ export const KelolaOrders = () => {
                   <th className="px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                     ACTION
                   </th>
-                  {auth?.role === "admin" && (
+                  {auth?.role === "superAdmin" && (
                     <th className="min-w-[60px] px-4 py-3 text-center text-xs tracking-wider whitespace-nowrap text-gray-400 uppercase">
                       CHAT
                     </th>
@@ -446,7 +446,7 @@ export const KelolaOrders = () => {
                           <MdCancel size={24} />
                         </button>
                       </td>
-                      {auth?.role === "admin" && (
+                      {auth?.role === "superAdmin" && (
                         <td className="px-4 py-3 text-white">
                           <BsChatDotsFill
                             className="ml-2 cursor-pointer"

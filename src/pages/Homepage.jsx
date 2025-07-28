@@ -106,7 +106,7 @@ export const Homepage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="relative min-h-screen">
+          <div className="relative h-[90vh]">
             <img
               src={Hero}
               alt="Hero"

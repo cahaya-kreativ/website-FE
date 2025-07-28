@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,6 +24,8 @@ import {
 export const NavbarNotif = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const userProfile = useSelector((state) => state.authLogin.userProfile);
   const profile = useSelector((state) => state.authLogin.user);
 
@@ -47,24 +49,47 @@ export const NavbarNotif = () => {
     return initials;
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scroll ke bawah
+        setShowNavbar(false);
+      } else {
+        // Scroll ke atas
+        setShowNavbar(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className="fixed top-0 flex w-screen items-center justify-between gap-2 bg-zinc-900 px-4 py-6 md:px-10 lg:px-28">
+    <div
+      className={`fixed top-0 z-25 flex w-screen items-center justify-between gap-2 bg-zinc-900 px-4 py-6 transition-transform duration-300 md:px-10 lg:px-28 ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="flex gap-10">
         <div
-          className="flex cursor-pointer items-center justify-center gap-2 "
+          className="flex cursor-pointer items-center justify-center gap-2"
           onClick={() => {
             navigate("/");
           }}
         >
           <img src={BrandLogo} alt="Brand Logo" className="w-[1.8rem]" />
-          <div className="gap-4 font-serif text-2xl md:text-3xl font-semibold text-white">
+          <div className="gap-4 font-serif text-2xl font-semibold text-white md:text-3xl">
             Cahaya Kreativ
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-4 text-white md:gap-8 lg:gap-8">
-        <div className="hidden md:flex lg:flex cursor-pointer gap-2 rounded-xl bg-white px-2 py-2 font-bold text-black lg:px-6 lg:py-1">
+        <div className="hidden cursor-pointer gap-2 rounded-xl bg-white px-2 py-2 font-bold text-black md:flex lg:flex lg:px-6 lg:py-1">
           <IoNotifications size={30} />
           <div className="md:text-xl">Notification</div>
         </div>
@@ -82,7 +107,7 @@ export const NavbarNotif = () => {
                   className="h-8 w-8 rounded-full border-2 border-amber-500"
                 />
               ) : (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-black text-lg">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg text-black">
                   {getInitials(profile?.fullname || "")}
                 </div>
               )}

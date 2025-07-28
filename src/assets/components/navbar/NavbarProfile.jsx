@@ -16,6 +16,8 @@ import { getNotificationsAction } from "../../../redux/action/user/notification/
 export const NavbarProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
@@ -39,8 +41,29 @@ export const NavbarProfile = () => {
     dispatch(logoutAction());
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setShowNavbar(false); // scroll ke bawah
+      } else {
+        setShowNavbar(true); // scroll ke atas
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
   return (
-    <div className="fixed top-0 z-25 flex w-screen items-center justify-between bg-zinc-900 px-6 py-6 md:px-14 lg:px-28">
+    <div
+      className={`fixed top-0 z-25 flex w-screen items-center justify-between bg-zinc-900 px-6 py-6 transition-transform duration-300 md:px-14 lg:px-28 ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div
         className="flex cursor-pointer items-center gap-2"
         onClick={() => navigate("/")}
@@ -56,7 +79,7 @@ export const NavbarProfile = () => {
           className="relative cursor-pointer"
           onClick={() => navigate("/notification")}
         >
-          <IoNotifications size={30} className="hover:text-amber-400"/>
+          <IoNotifications size={30} className="hover:text-amber-400" />
           {unreadNotificationsCount > 0 && (
             <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs font-bold text-white">
               {unreadNotificationsCount}
@@ -73,7 +96,7 @@ export const NavbarProfile = () => {
           className="relative cursor-pointer"
           onClick={() => navigate("/notification")}
         >
-          <IoNotifications size={30} className="hover:text-amber-400"/>
+          <IoNotifications size={30} className="hover:text-amber-400" />
           {unreadNotificationsCount > 0 && (
             <span className="absolute -top-1 -right-1 rounded-full bg-red-500 px-1 text-xs font-bold text-white">
               {unreadNotificationsCount}

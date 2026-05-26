@@ -119,8 +119,7 @@ export const Homepage = () => {
                   Selamat Datang di Cahaya Kreativ
                 </h1>
                 <p className="py-4 text-base md:text-lg">
-                  Perusahaan jasa kreatif yang mengutamakan kualitas dalam
-                  layanan dokumentasi untuk berbagai acara penting.
+                  Creative & technology company yang menghadirkan solusi inovatif melalui layanan dokumentasi, pengelolaan media sosial, dan pengembangan sistem IT terintegrasi.
                 </p>
                 <div className="flex flex-col justify-evenly gap-4 pt-10 md:flex-row md:gap-0">
                   <button

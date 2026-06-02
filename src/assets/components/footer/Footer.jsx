@@ -19,7 +19,7 @@ export const Footer = () => {
               CAHAYA <span className="text-amber-500">KREATIV</span>
             </h2>
             <p className="text-gray-400 leading-relaxed text-sm md:text-base">
-              Studio kreatif yang berdedikasi untuk menghadirkan solusi visual terbaik dengan standar profesional. Kami menggabungkan keahlian teknis dan kreativitas untuk menciptakan hasil yang memukau.
+              Studio kreatif dan teknologi yang berdedikasi menghadirkan layanan dokumentasi profesional serta solusi IT & software inovatif. Kami siap membangun website company profile, aplikasi custom, hingga sistem ERP/WMS untuk mendorong transformasi digital bisnis Anda.
             </p>
           </div>
 
@@ -38,7 +38,7 @@ export const Footer = () => {
               <li className="flex items-start gap-3 text-gray-400 hover:text-amber-400 transition-colors">
                 <MdLocationOn className="mt-1 h-5 w-5 shrink-0 text-amber-500" />
                 <span className="text-sm md:text-base leading-relaxed">
-                  Jl. Jambu V, Pondok Tjandra, Surabaya, Indonesia
+                  Jl. Karangklumprik Tim II, Surabaya, Indonesia
                 </span>
               </li>
             </ul>
@@ -48,7 +48,7 @@ export const Footer = () => {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold text-white">Ikuti Kami</h3>
             <p className="text-sm text-gray-400">Temukan inspirasi dan karya terbaru kami di media sosial.</p>
-            <div className="flex gap-4">          
+            <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/cahaya.kreativ/"
                 target="_blank" rel="noreferrer"
@@ -73,7 +73,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col md:flex-row items-center justify-between border-t border-zinc-800/50 pt-8 text-sm text-gray-500">
           <p>© {new Date().getFullYear()} Cahaya Kreativ. All Rights Reserved.</p>

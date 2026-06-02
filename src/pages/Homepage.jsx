@@ -311,7 +311,7 @@ export const Homepage = () => {
                 Layanan Jasa Kami
               </h2>
               <p className="text-base text-gray-400 md:text-lg">
-                Temukan pengalaman dokumentasi terbaik dengan layanan profesional dan hasil berkualitas tinggi.
+                Temukan layanan dokumentasi profesional, pengelolaan media sosial, dan solusi IT & software inovatif berkualitas tinggi untuk mendukung segala kebutuhan bisnis Anda.
               </p>
             </motion.div>
 
@@ -396,7 +396,8 @@ export const Homepage = () => {
                 { title: "Graduation", filter: "graduation", matcher: (p) => p.name?.includes("Graduation") },
                 { title: "Wedding", filter: "wedding", matcher: (p) => p.category?.name === "Documentation Independent" && p.name?.includes("Wedding") },
                 { title: "Event", filter: "event", matcher: (p) => p.category?.name === "Documentation Event" },
-                { title: "Social Media", filter: "sosmed", matcher: (p) => p.category?.name === "Social Media Management" }
+                { title: "Social Media", filter: "sosmed", matcher: (p) => p.category?.name === "Social Media Management" },
+                { title: "IT & Software", filter: "it_solution", matcher: (p) => p.category?.name === "IT Inovasi dan Solusi" }
               ].map((gal, idx) => {
                 const product = Array.isArray(products) ? products.find(gal.matcher) : null;
                 const imageSrc = product?.image || "https://via.placeholder.com/600x400";

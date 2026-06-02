@@ -10,7 +10,6 @@ import BrandLogo from "../../img/logogram_hitam.png";
 
 // Material Tailwind Components
 import {
-  Button,
   Menu,
   MenuHandler,
   MenuItem,
@@ -73,47 +72,48 @@ export const NavbarHome = () => {
 
   return (
     <div
-      className={`fixed top-0 z-25 w-screen items-center justify-between bg-zinc-900 px-6 py-6 transition-transform duration-300 md:px-14 lg:px-28 ${
+      className={`fixed top-0 z-50 w-full flex items-center justify-between bg-black/30 backdrop-blur-md border-b border-white/10 px-6 py-4 transition-transform duration-300 md:px-14 lg:px-24 ${
         showNavbar ? "translate-y-0" : "-translate-y-full"
-      } flex`}
+      }`}
     >
       <div
-        className="flex cursor-pointer items-center gap-2"
+        className="flex cursor-pointer items-center gap-3"
         onClick={() => navigate("/")}
       >
-        <img src={BrandLogo} alt="Brand Logo" className="w-[1.8rem]" />
-        <div className="font-serif text-3xl font-semibold text-white">
-          Cahaya Kreativ
+        <img src={BrandLogo} alt="Brand Logo" className="w-[2.2rem] brightness-0 invert" />
+        <div className="font-serif text-2xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 hidden sm:block md:text-2xl">
+          CAHAYA <span className="text-amber-500">KREATIV</span>
         </div>
       </div>
-      <div className="flex gap-10 text-base text-white md:flex lg:hidden">
-        <div className="cursor-pointer" onClick={toggleSidebar}>
-          <AiOutlineMenu size={30} />
+      
+      {/* Mobile Toggle */}
+      <div className="flex text-white lg:hidden">
+        <div className="cursor-pointer hover:text-amber-500 transition-colors" onClick={toggleSidebar}>
+          <AiOutlineMenu size={28} />
         </div>
       </div>
-      <div className="hidden gap-10 text-base text-white md:hidden lg:flex">
+
+      {/* Desktop Menu */}
+      <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
         <Menu>
           <MenuHandler>
-            <div className="cursor-pointer hover:text-amber-400">
-              <span
-                className="flex items-center gap-2 text-base font-medium hover:text-amber-400"
-                onClick={handleCategoryClick}
-              >
-                Category{" "}
+            <div className="cursor-pointer group flex items-center gap-2 hover:text-amber-500 transition-colors">
+              <span className="flex items-center gap-2" onClick={handleCategoryClick}>
+                Category
                 {isMenuOpen ? (
-                  <IoIosArrowUp size={20} />
+                  <IoIosArrowUp size={16} className="text-amber-500" />
                 ) : (
-                  <IoIosArrowDown size={20} />
+                  <IoIosArrowDown size={16} className="group-hover:text-amber-500 transition-colors" />
                 )}
               </span>
             </div>
           </MenuHandler>
-          <MenuList className="z-30 w-64 p-4">
+          <MenuList className="z-50 w-64 border-zinc-700 bg-zinc-900 p-3 text-white shadow-xl shadow-black/50">
             {categories && categories.length > 0 ? (
               categories.map((category) => (
                 <MenuItem
                   key={category.id}
-                  className="cursor-pointer p-2 hover:bg-amber-500"
+                  className="cursor-pointer p-3 font-medium transition-colors hover:bg-amber-500 hover:text-zinc-900 focus:bg-amber-500 focus:text-zinc-900 rounded-lg"
                   onClick={() => {
                     navigate(`/products?category=${category.name}`);
                     toggleMenu();
@@ -123,120 +123,125 @@ export const NavbarHome = () => {
                 </MenuItem>
               ))
             ) : (
-              <MenuItem className="cursor-default p-2 text-gray-500">
+              <MenuItem className="cursor-default p-3 text-gray-500">
                 Tidak ada kategori tersedia
               </MenuItem>
             )}
           </MenuList>
         </Menu>
+        
         <span
-          className="cursor-pointer text-base font-medium hover:text-amber-400"
+          className="cursor-pointer hover:text-amber-500 transition-colors"
           onClick={() => navigate("/gallery")}
         >
           Gallery
         </span>
         <span
-          className="cursor-pointer text-base font-medium hover:text-amber-400"
+          className="cursor-pointer hover:text-amber-500 transition-colors"
           onClick={() => navigate("/products")}
         >
           Product
         </span>
         <span
-          className="cursor-pointer text-base font-medium hover:text-amber-400"
+          className="cursor-pointer hover:text-amber-500 transition-colors"
           onClick={() => navigate("/tentang-kami")}
         >
           Tentang Kami
         </span>
+        
+        {/* Login Button */}
         <div
-          className="flex cursor-pointer gap-2 font-semibold text-white hover:text-amber-400"
+          className="group flex cursor-pointer items-center gap-2 rounded-full border border-zinc-700 bg-zinc-800/50 px-6 py-2.5 font-semibold text-white transition-all hover:border-amber-500 hover:bg-amber-500 hover:text-zinc-900 ml-4 shadow-lg"
           onClick={() => navigate("/login")}
         >
-          <CgLogIn size={30} />
-          <div className="text-xl">Masuk</div>
+          <CgLogIn size={20} className="transition-transform group-hover:translate-x-1" />
+          <span>Masuk</span>
         </div>
       </div>
 
-      {/* Sidebar */}
+      {/* Mobile Sidebar */}
       {sidebarOpen && (
-        <div
-          className="bg-opacity-50 fixed inset-0 z-40 bg-black/50"
-          onClick={toggleSidebar}
-        >
-          <div className="fixed top-0 right-0 h-full w-64 bg-white p-4 shadow-lg">
-            <div className="flex items-center justify-between pb-4">
-              {/* <img src={BrandLogo} alt="Brand Logo" className="w-[2.5rem]" /> */}
-              <div className="font-serif text-3xl font-semibold">
-                Cahaya Kreativ
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden">
+          <div className="fixed top-0 right-0 h-full w-72 bg-zinc-950 border-l border-zinc-800 p-6 shadow-2xl flex flex-col transform transition-transform duration-300">
+            <div className="flex items-center justify-between mb-8 border-b border-zinc-800 pb-6">
+              <div className="font-serif text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                CAHAYA <span className="text-amber-500">KREATIV</span>
               </div>
               <button
                 onClick={toggleSidebar}
-                className="rounded-md border p-2 shadow-xl"
+                className="rounded-full bg-zinc-900 p-2 text-gray-400 hover:bg-zinc-800 hover:text-white transition-colors border border-zinc-800"
               >
-                <AiOutlineClose size={24} />
+                <AiOutlineClose size={20} />
               </button>
             </div>
-            <div className="flex flex-col gap-6 py-4">
+            
+            <div className="flex flex-col gap-6 text-lg font-medium text-gray-300 flex-grow">
               <Menu>
                 <MenuHandler>
-                  <div className="cursor-pointer hover:text-amber-400">
+                  <div className="cursor-pointer hover:text-amber-500 transition-colors">
                     <span
-                      className="flex items-center gap-2 text-xl font-bold hover:text-amber-400"
+                      className="flex items-center justify-between"
                       onClick={handleCategoryClick}
                     >
-                      Category{" "}
+                      Category
                       {isMenuOpen ? (
-                        <IoIosArrowUp size={25} />
+                        <IoIosArrowUp size={20} className="text-amber-500" />
                       ) : (
-                        <IoIosArrowDown size={25} />
+                        <IoIosArrowDown size={20} />
                       )}
                     </span>
                   </div>
                 </MenuHandler>
-                <MenuList className="z-30 w-60 p-4">
+                <MenuList className="z-[70] w-60 border-zinc-800 bg-zinc-900 p-3 text-white shadow-2xl">
                   {categories && categories.length > 0 ? (
                     categories.map((category) => (
                       <MenuItem
                         key={category.id}
-                        className="cursor-pointer p-2 hover:bg-amber-500"
+                        className="cursor-pointer p-3 hover:bg-amber-500 hover:text-zinc-900 focus:bg-amber-500 focus:text-zinc-900 rounded-lg"
                         onClick={() => {
                           navigate(`/products?category=${category.name}`);
-                          toggleMenu();
+                          toggleSidebar();
                         }}
                       >
                         {category.name}
                       </MenuItem>
                     ))
                   ) : (
-                    <MenuItem className="cursor-default p-2 text-gray-500">
+                    <MenuItem className="cursor-default p-3 text-gray-500">
                       Tidak ada kategori tersedia
                     </MenuItem>
                   )}
                 </MenuList>
               </Menu>
+              
               <span
-                className="cursor-pointer text-xl font-bold hover:text-amber-400"
-                onClick={() => navigate("/gallery")}
+                className="cursor-pointer hover:text-amber-500 transition-colors border-b border-zinc-800/50 pb-4"
+                onClick={() => { navigate("/gallery"); toggleSidebar(); }}
               >
                 Gallery
               </span>
               <span
-                className="cursor-pointer text-xl font-bold hover:text-amber-400"
-                onClick={() => navigate("/products")}
+                className="cursor-pointer hover:text-amber-500 transition-colors border-b border-zinc-800/50 pb-4"
+                onClick={() => { navigate("/products"); toggleSidebar(); }}
               >
                 Product
               </span>
               <span
-                className="cursor-pointer text-xl font-bold hover:text-amber-400"
-                onClick={() => navigate("/tentang-kami")}
+                className="cursor-pointer hover:text-amber-500 transition-colors border-b border-zinc-800/50 pb-4"
+                onClick={() => { navigate("/tentang-kami"); toggleSidebar(); }}
               >
                 Tentang Kami
               </span>
+            </div>
+            
+            {/* Mobile Login Button */}
+            <div className="mt-auto pt-6 border-t border-zinc-800">
               <div
-                className="flex cursor-pointer gap-2 py-4 text-3xl font-bold text-black hover:text-amber-400 md:py-10"
-                onClick={() => navigate("/login")}
+                className="flex cursor-pointer items-center justify-center gap-3 rounded-xl bg-amber-500 py-4 text-xl font-bold text-zinc-900 hover:bg-amber-400 transition-colors"
+                onClick={() => { navigate("/login"); toggleSidebar(); }}
               >
-                <CgLogIn size={40} />
-                <div>Masuk</div>
+                <CgLogIn size={26} />
+                <span>Masuk</span>
               </div>
             </div>
           </div>

@@ -39,28 +39,49 @@ export default function FAQ() {
   const faqs = [
     {
       id: 1,
-      question: "Bagaimana cara memesan layanan?",
-      answer: "Pastikan Anda sudah memiliki akun di website kami, jika belum silakan membuat akun terlebih dahulu. Setelah itu, silakan login ke akun Anda dan pilih layanan yang Anda inginkan."
+      question: "Apakah Cahaya Kreativ menerima proyek dari luar kota atau luar negeri?",
+      answer: "Tentu saja! Untuk layanan digital seperti Manajemen Media Sosial dan Pengembangan IT, kami melayani klien dari seluruh Indonesia hingga mancanegara secara online tanpa hambatan jarak. Sementara untuk layanan Dokumentasi (Foto & Video) luar kota, tim kami siap berangkat ke lokasi Anda dengan penyesuaian biaya akomodasi yang transparan."
     },
     {
       id: 2,
-      question: "Apakah Cahaya Kreativ melayani pembuatan website, aplikasi, dan sistem custom?",
-      answer: "Ya, kami memiliki divisi khusus 'IT Inovasi & Solusi' yang melayani pembuatan website company profile, landing page, aplikasi custom (web & mobile), software ERP, hingga Warehouse Management System (WMS) yang disesuaikan sepenuhnya dengan alur bisnis perusahaan Anda."
+      question: "Bagaimana sistem pembayaran untuk memulai proyek?",
+      answer: "Demi transparansi dan keamanan bersama, kami memberlakukan sistem Down Payment (DP) di awal sebelum proyek dimulai. Sisa pelunasan dapat dilakukan setelah Anda meninjau hasil akhir (preview) atau sebelum penyerahan file final dilakukan."
     },
     {
       id: 3,
-      question: "Apakah saya bisa melakukan revisi setelah proyek selesai?",
-      answer: "Ya, Anda dapat melakukan revisi setelah proyek selesai, asalkan masih dalam masa garansi. Jumlah revisi dan ketentuannya disesuaikan dengan paket layanan yang dipilih."
+      question: "Apakah saya bisa mengajukan revisi jika hasilnya belum sesuai?",
+      answer: "Tentu bisa. Setiap paket layanan kami sudah dilengkapi dengan kuota revisi gratis yang jelas. Kami berkomitmen penuh untuk melakukan perbaikan hingga hasil akhirnya benar-benar sesuai dengan visi bisnis Anda."
     },
     {
       id: 4,
-      question: "Bagaimana proses konsultasi sebelum memulai proyek?",
-      answer: "Konsultasi dapat dilakukan secara gratis melalui fitur live chat di website kami. Cukup klik tombol chat di bagian kontak setelah Anda melakukan login ke akun Anda."
+      question: "Berapa lama waktu yang dibutuhkan untuk menyelesaikan satu proyek?",
+      answer: "Waktu pengerjaan akan disesuaikan dengan skala dan kompleksitas proyek Anda. Di awal kerja sama, kami akan memberikan timeline kerja yang jelas, detail, dan terukur, sehingga Anda bisa memantau perkembangannya dan memastikan proyek selesai tepat waktu."
     },
     {
       id: 5,
-      question: "Bagaimana sistem pembayaran untuk proyek teknologi / IT?",
-      answer: "Untuk proyek IT & Software, kami menyediakan pilihan metode pembayaran bertahap (Down Payment & Milestone Payment) yang aman dan transparan melalui website kami, untuk memberikan rasa aman dan kenyamanan maksimal bagi bisnis Anda."
+      question: "Bagaimana dengan hak cipta dan kepemilikan file setelah proyek selesai?",
+      answer: "Setelah seluruh proses administrasi selesai, hak cipta dan kepemilikan penuh atas semua file dokumentasi, aset desain, hingga source code (untuk proyek IT) akan sepenuhnya diserahkan kepada Anda. Kami menjamin keamanan dan kerahasiaan seluruh aset bisnis Anda."
+    },
+    {
+      id: 6,
+      question: "Apakah saya bisa memesan layanan kustom di luar paket yang tersedia?",
+      answer: "Sangat bisa! Kami memahami bahwa setiap bisnis memiliki kebutuhan dan anggaran yang berbeda. Anda dapat berkonsultasi terlebih dahulu dengan tim kami untuk membuat paket kustom yang dirancang khusus, baik hanya untuk satu jenis jasa maupun gabungan dari berbagai layanan kami."
+    },
+    {
+      id: 7,
+      question: "Bagaimana alur kerja sama dengan Cahaya Kreativ dari awal sampai selesai?",
+      answer: (
+        <div className="flex flex-col gap-3">
+          <p>Alur kerja kami dibuat sangat jelas dan terstruktur melalui beberapa tahapan:</p>
+          <ul className="list-disc pl-5 space-y-2">
+            <li><strong className="text-gray-300">Konsultasi & Briefing:</strong> Diskusi awal untuk memahami kebutuhan, visi, dan goals bisnis Anda.</li>
+            <li><strong className="text-gray-300">Perencanaan & Kontrak:</strong> Penyusunan konsep kreatif, kesepakatan timeline, biaya, serta pembayaran DP.</li>
+            <li><strong className="text-gray-300">Proses Produksi:</strong> Tim kami mulai mengeksekusi proyek (baik syuting, desain media sosial, atau coding sistem IT).</li>
+            <li><strong className="text-gray-300">Review & Revisi:</strong> Kami memberikan hasil awal kepada Anda untuk ditinjau dan direvisi jika ada bagian yang kurang sesuai.</li>
+            <li><strong className="text-gray-300">Pelunasan & Handover:</strong> Setelah hasil disetujui dan administrasi dilunasi, seluruh file final atau akses sistem akan diserahkan sepenuhnya kepada Anda.</li>
+          </ul>
+        </div>
+      )
     }
   ];
 

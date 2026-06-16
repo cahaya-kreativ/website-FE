@@ -27,10 +27,9 @@ import { BsChatDotsFill } from "react-icons/bs";
 import { MdCategory } from "react-icons/md";
 import { MdOutlinePermMedia } from "react-icons/md";
 import { IoIosThumbsUp } from "react-icons/io";
-import { FaTags } from "react-icons/fa6";
+import { FaTags, FaArrowRight, FaLaptopCode } from "react-icons/fa6";
 import { RiTeamFill } from "react-icons/ri";
 import { MdPermMedia } from "react-icons/md";
-import { FaArrowRight } from "react-icons/fa6";
 
 export const Homepage = () => {
   const navigate = useNavigate();
@@ -147,7 +146,7 @@ export const Homepage = () => {
               <motion.p variants={fadeUp} className="py-4 text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl ml-auto">
                 Creative & technology company yang menghadirkan solusi inovatif melalui layanan dokumentasi, pengelolaan media sosial, dan pengembangan sistem IT terintegrasi.
               </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-col justify-center lg:justify-end gap-4 pt-10 sm:flex-row">
+              <motion.div variants={fadeUp} className="flex flex-col justify-center lg:justify-end gap-4 pt-10 sm:flex-row flex-wrap">
                 <button
                   type="button"
                   onClick={scrollToSectionJasa}
@@ -156,6 +155,15 @@ export const Homepage = () => {
                   Jasa Kami
                   <MdCategory size={20} className="transition-transform group-hover:rotate-12" />
                 </button>
+                <a
+                  href="https://web-cativ-it.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex transform cursor-pointer items-center justify-center gap-2 rounded-full border border-blue-500 bg-blue-500/10 px-6 py-3 text-base font-semibold text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:-translate-y-1 md:text-lg"
+                >
+                  IT Solution
+                  <FaLaptopCode size={20} className="transition-transform group-hover:scale-110" />
+                </a>
                 <button
                   type="button"
                   onClick={scrollToSectionGallery}

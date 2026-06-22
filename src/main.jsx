@@ -18,6 +18,9 @@ import { SkeletonTheme } from "react-loading-skeleton";
 // Redux Persist
 import { PersistGate } from "redux-persist/integration/react";
 
+// Vercel Analytics
+import { Analytics } from "@vercel/analytics/react";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
@@ -26,6 +29,7 @@ createRoot(document.getElementById("root")).render(
           <ThemeProvider>
             <Toaster />
             <App />
+            <Analytics />
           </ThemeProvider>
         </SkeletonTheme>
       </PersistGate>

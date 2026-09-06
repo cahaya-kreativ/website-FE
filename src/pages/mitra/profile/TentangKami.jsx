@@ -48,7 +48,7 @@ export const TentangKami = () => {
   }
 
   const teamMembers = [
-    {
+    /* {
       id: 1,
       name: "Ghifarry Rachmadhan",
       role: "Commissioner",
@@ -58,7 +58,7 @@ export const TentangKami = () => {
         "Setiap momen adalah kesempatan untuk menciptakan kenangan yang abadi.",
       expertise: ["Brand Strategy", "Creative Direction", "Content Planning"],
       icon: <FaCamera className="text-amber-500" size={24} />,
-    },
+    }, */
     {
       id: 2,
       name: "Ekky Yudha Perkasa",
